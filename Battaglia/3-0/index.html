@@ -7,11 +7,10 @@
   <style>
     :root {
       --bg: #000000;
-      --cold: #d8e8ff;
-      --cold-soft: rgba(190, 220, 255, 0.35);
-      --cold-glow: rgba(130, 185, 255, 0.75);
-      --formula: rgba(210, 225, 255, 0.09);
-      --formula-bright: rgba(225, 235, 255, 0.18);
+      --cold-text: rgba(228, 236, 248, 0.88);
+      --cold-x: #f5fbff;
+      --formula-soft: rgba(210, 225, 255, 0.22);
+      --formula-bright: rgba(245, 250, 255, 0.78);
     }
 
     * {
@@ -23,78 +22,66 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: var(--bg);
+      background: #000;
       font-family: "Segoe UI", Arial, sans-serif;
     }
 
     body {
       position: relative;
       background:
-        radial-gradient(circle at 50% 58%, rgba(28, 52, 90, 0.18) 0%, rgba(0,0,0,0) 28%),
-        radial-gradient(circle at 50% 72%, rgba(60, 110, 190, 0.08) 0%, rgba(0,0,0,0) 24%),
-        #000;
+        radial-gradient(circle at 50% 45%, rgba(24, 40, 72, 0.14) 0%, rgba(0,0,0,0) 28%),
+        radial-gradient(circle at 50% 60%, rgba(70, 110, 180, 0.06) 0%, rgba(0,0,0,0) 18%),
+        #000000;
     }
 
     #scene {
       position: absolute;
       inset: 0;
-      width: 100%;
-      height: 100%;
       overflow: hidden;
       background: #000;
     }
 
-    /* Звёзды */
     .star {
       position: absolute;
       border-radius: 50%;
-      background: #fff;
-      opacity: 0.18;
-      box-shadow: 0 0 6px rgba(255,255,255,0.25);
-      animation: twinkle linear infinite;
+      background: #ffffff;
+      opacity: 0.16;
+      box-shadow: 0 0 7px rgba(255,255,255,0.24);
       pointer-events: none;
+      will-change: transform, opacity;
+      animation: twinkle linear infinite;
+    }
+
+    .formula {
+      position: absolute;
+      color: var(--formula-soft);
+      font-family: "Times New Roman", Georgia, serif;
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      text-shadow:
+        0 0 4px rgba(255,255,255,0.03),
+        0 0 12px rgba(160, 200, 255, 0.05);
+      will-change: transform, opacity;
+      animation: twinkle linear infinite;
     }
 
     @keyframes twinkle {
       0%, 100% {
-        opacity: 0.12;
-        transform: scale(0.85);
+        opacity: 0.08;
+        transform: scale(0.96);
       }
       50% {
         opacity: 0.95;
-        transform: scale(1.18);
+        transform: scale(1.06);
       }
     }
 
-    /* Формулы */
-    .formula {
-      position: absolute;
-      color: var(--formula);
-      font-family: "Times New Roman", Georgia, serif;
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-      user-select: none;
-      pointer-events: none;
-      text-shadow: 0 0 10px rgba(180, 210, 255, 0.03);
-      animation: formulaPulse ease-in-out infinite;
-    }
-
-    @keyframes formulaPulse {
-      0%, 100% {
-        opacity: 0.22;
-        filter: blur(0.2px);
-      }
-      50% {
-        opacity: 0.5;
-        filter: blur(0px);
-      }
-    }
-
-    /* Центральный заголовок */
     .title-wrap {
       position: absolute;
       left: 50%;
-      top: 42%;
+      top: 31%;
       transform: translate(-50%, -50%);
       z-index: 20;
       text-align: center;
@@ -103,53 +90,49 @@
 
     .title {
       font-weight: 300;
-      font-size: clamp(42px, 5vw, 96px);
+      font-size: clamp(34px, 4.4vw, 82px);
       letter-spacing: 0.08em;
-      color: rgba(235, 242, 255, 0.84);
+      color: var(--cold-text);
       text-shadow:
-        0 0 12px rgba(180, 210, 255, 0.08),
-        0 0 24px rgba(140, 180, 255, 0.05);
+        0 0 10px rgba(190, 215, 255, 0.09),
+        0 0 24px rgba(140, 175, 255, 0.06);
     }
 
     .title .x {
-      color: #f4fbff;
+      position: relative;
+      color: var(--cold-x);
       text-shadow:
-        0 0 10px rgba(255,255,255,0.85),
-        0 0 22px rgba(180, 220, 255, 0.72),
-        0 0 44px rgba(110, 170, 255, 0.5),
-        0 0 80px rgba(110, 170, 255, 0.25);
-      animation: xPulse 2.6s ease-in-out infinite;
+        0 0 8px rgba(255,255,255,0.96),
+        0 0 18px rgba(180, 220, 255, 0.82),
+        0 0 42px rgba(110, 170, 255, 0.56),
+        0 0 78px rgba(110, 170, 255, 0.24);
+      animation: xPulse 2.3s ease-in-out infinite;
     }
 
     @keyframes xPulse {
-      0%, 100% {
-        opacity: 0.92;
-      }
-      50% {
-        opacity: 1;
-      }
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 1; }
     }
 
-    /* Световой вертикальный след под X */
     .x-beam {
       position: absolute;
       left: 50%;
-      top: calc(100% + 10px);
-      transform: translateX(170px);
-      width: 26px;
-      height: 280px;
+      top: calc(100% + 6px);
+      transform: translateX(128px);
+      width: 16px;
+      height: 320px;
       background:
         linear-gradient(to bottom,
-          rgba(230,245,255,0.95) 0%,
-          rgba(150,205,255,0.65) 15%,
-          rgba(120,180,255,0.22) 45%,
-          rgba(90,140,255,0.08) 72%,
+          rgba(235,245,255,0.94) 0%,
+          rgba(160,210,255,0.54) 12%,
+          rgba(120,180,255,0.18) 40%,
+          rgba(70,120,255,0.06) 72%,
           rgba(0,0,0,0) 100%);
-      filter: blur(5px);
-      opacity: 0.72;
+      filter: blur(4px);
+      opacity: 0.74;
       z-index: 18;
       pointer-events: none;
-      animation: beamPulse 2.2s ease-in-out infinite;
+      animation: beamPulse 2.1s ease-in-out infinite;
     }
 
     .x-beam::after {
@@ -157,71 +140,36 @@
       position: absolute;
       left: 50%;
       top: 0;
-      width: 70px;
+      width: 54px;
       height: 100%;
       transform: translateX(-50%);
       background:
         linear-gradient(to bottom,
-          rgba(180,220,255,0.28),
-          rgba(80,130,255,0.08),
+          rgba(180,220,255,0.18),
+          rgba(90,140,255,0.06),
           rgba(0,0,0,0));
-      filter: blur(18px);
+      filter: blur(16px);
     }
 
     @keyframes beamPulse {
       0%, 100% {
         opacity: 0.52;
-        transform: translateX(170px) scaleY(0.95);
+        transform: translateX(128px) scaleY(0.96);
       }
       50% {
-        opacity: 0.88;
-        transform: translateX(170px) scaleY(1.04);
+        opacity: 0.9;
+        transform: translateX(128px) scaleY(1.03);
       }
     }
 
-    /* Ракета */
     .rocket-stage {
       position: absolute;
       left: 50%;
-      bottom: -2vh;
-      width: min(42vw, 430px);
+      top: calc(31% + 42px);
+      width: min(27vw, 280px);
       transform: translateX(-50%);
       z-index: 30;
-      will-change: transform, filter, opacity;
-      animation: rocketLaunch 9.5s cubic-bezier(.22,.7,.18,1) infinite;
-    }
-
-    @keyframes rocketLaunch {
-      0% {
-        transform: translateX(-50%) translateY(0) scale(1);
-        filter: brightness(0.98);
-      }
-      8% {
-        transform: translateX(-50%) translateY(-6px) scale(1);
-      }
-      14% {
-        transform: translateX(-50%) translateY(-18px) scale(1.003);
-      }
-      24% {
-        transform: translateX(-50%) translateY(-70px) scale(1.01);
-      }
-      38% {
-        transform: translateX(-50%) translateY(-220px) scale(0.97);
-      }
-      52% {
-        transform: translateX(-50%) translateY(-440px) scale(0.88);
-      }
-      68% {
-        transform: translateX(-50%) translateY(-760px) scale(0.72);
-      }
-      82% {
-        transform: translateX(-50%) translateY(-1120px) scale(0.52);
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(-50%) translateY(-1450px) scale(0.34);
-        opacity: 0;
-      }
+      pointer-events: none;
     }
 
     .rocket-wrap {
@@ -233,58 +181,51 @@
       display: block;
       width: 100%;
       height: auto;
-      filter:
-        drop-shadow(0 0 18px rgba(255, 210, 130, 0.08))
-        drop-shadow(0 0 32px rgba(255, 255, 255, 0.04));
       user-select: none;
       -webkit-user-drag: none;
+      position: relative;
+      z-index: 5;
+      filter:
+        drop-shadow(0 0 12px rgba(255, 214, 160, 0.08))
+        drop-shadow(0 0 28px rgba(255,255,255,0.04));
     }
 
-    /* Светящаяся X на носу ракеты */
     .rocket-x {
       position: absolute;
-      left: 50.3%;
-      top: 15.6%;
+      left: 50.2%;
+      top: 3.2%;
       transform: translate(-50%, -50%);
-      color: #f6fbff;
-      font-size: clamp(14px, 1.6vw, 22px);
+      color: #f8fcff;
+      font-size: clamp(10px, 0.95vw, 15px);
       font-weight: 300;
-      letter-spacing: 0.04em;
       text-shadow:
-        0 0 6px rgba(255,255,255,0.9),
-        0 0 14px rgba(180,220,255,0.8),
-        0 0 30px rgba(110,170,255,0.5);
-      z-index: 4;
-      animation: rocketXPulse 1.8s ease-in-out infinite;
-      pointer-events: none;
+        0 0 6px rgba(255,255,255,0.96),
+        0 0 14px rgba(180,220,255,0.9),
+        0 0 28px rgba(110,170,255,0.6);
+      z-index: 8;
+      animation: xPulse 2s ease-in-out infinite;
     }
 
-    @keyframes rocketXPulse {
-      0%, 100% { opacity: 0.78; }
-      50% { opacity: 1; }
-    }
-
-    /* Факел двигателя */
     .engine-flame {
       position: absolute;
       left: 50%;
-      bottom: 8%;
+      bottom: 10%;
       transform: translateX(-50%);
-      width: 23%;
-      height: 28%;
-      z-index: 1;
+      width: 24%;
+      height: 18%;
+      z-index: 2;
       pointer-events: none;
       background:
-        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.98) 0 18%, rgba(255,255,255,0) 32%),
+        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.98) 0 18%, rgba(255,255,255,0) 34%),
         linear-gradient(to bottom,
-          rgba(255,255,255,0.98) 0%,
-          rgba(255,235,185,0.95) 14%,
-          rgba(255,192,88,0.94) 36%,
-          rgba(255,120,20,0.78) 62%,
-          rgba(255,80,0,0.42) 82%,
+          rgba(255,255,255,0.96) 0%,
+          rgba(255,234,176,0.96) 16%,
+          rgba(255,190,86,0.94) 40%,
+          rgba(255,116,20,0.82) 66%,
+          rgba(255,60,0,0.28) 88%,
           rgba(0,0,0,0) 100%);
       filter: blur(6px);
-      clip-path: polygon(36% 0%, 64% 0%, 84% 28%, 72% 100%, 28% 100%, 16% 28%);
+      clip-path: polygon(34% 0%, 66% 0%, 86% 32%, 72% 100%, 28% 100%, 14% 32%);
       animation: flameFlicker 0.11s ease-in-out infinite;
     }
 
@@ -294,110 +235,135 @@
       inset: 0;
       background:
         linear-gradient(to bottom,
-          rgba(255,255,255,0.9),
-          rgba(140,210,255,0.22),
+          rgba(255,255,255,0.7),
+          rgba(160,220,255,0.18),
           rgba(0,0,0,0));
       filter: blur(16px);
-      transform: scale(1.6, 1.15);
-      opacity: 0.42;
+      transform: scale(1.7, 1.2);
+      opacity: 0.45;
     }
 
     @keyframes flameFlicker {
       0% {
-        transform: translateX(-50%) scaleY(0.92) scaleX(0.96);
-        opacity: 0.82;
+        transform: translateX(-50%) scaleY(0.92) scaleX(0.97);
+        opacity: 0.84;
       }
       50% {
-        transform: translateX(-50%) scaleY(1.08) scaleX(1.05);
+        transform: translateX(-50%) scaleY(1.08) scaleX(1.04);
         opacity: 1;
       }
       100% {
-        transform: translateX(-50%) scaleY(0.96) scaleX(0.98);
+        transform: translateX(-50%) scaleY(0.97) scaleX(0.98);
         opacity: 0.9;
       }
     }
 
-    /* Дым */
-    .smoke-field {
-      position: absolute;
-      left: 50%;
-      bottom: -6vh;
-      width: min(82vw, 980px);
-      height: 36vh;
-      transform: translateX(-50%);
-      z-index: 14;
-      pointer-events: none;
-      animation: smokeFade 9.5s linear infinite;
-    }
-
-    @keyframes smokeFade {
-      0% { opacity: 1; }
-      45% { opacity: 1; }
-      70% { opacity: 0.65; }
-      100% { opacity: 0; }
-    }
-
-    .smoke {
-      position: absolute;
-      bottom: 0;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 50%,
-          rgba(255, 212, 146, 0.88) 0%,
-          rgba(255, 166, 70, 0.58) 24%,
-          rgba(135, 90, 52, 0.26) 58%,
-          rgba(0,0,0,0) 74%);
-      filter: blur(14px);
-      animation: smokeLift ease-out infinite;
-      mix-blend-mode: screen;
-    }
-
-    @keyframes smokeLift {
-      0% {
-        transform: translateY(0) scale(0.9);
-        opacity: 0;
-      }
-      12% {
-        opacity: 0.95;
-      }
-      100% {
-        transform: translateY(-120px) scale(1.45);
-        opacity: 0;
-      }
-    }
-
-    /* Мягкий нижний жар */
     .launch-glow {
       position: absolute;
       left: 50%;
-      bottom: -4vh;
-      width: min(60vw, 760px);
-      height: 26vh;
+      top: calc(31% + 42px + 310px);
       transform: translateX(-50%);
+      width: min(48vw, 520px);
+      height: 22vh;
       background:
-        radial-gradient(circle at 50% 60%,
-          rgba(255, 212, 144, 0.48) 0%,
-          rgba(255, 140, 40, 0.24) 28%,
+        radial-gradient(circle at 50% 20%,
+          rgba(255, 230, 180, 0.24) 0%,
+          rgba(255, 150, 42, 0.14) 28%,
           rgba(0,0,0,0) 70%);
-      filter: blur(26px);
-      z-index: 12;
+      filter: blur(28px);
+      z-index: 10;
       pointer-events: none;
       animation: launchPulse 0.16s ease-in-out infinite;
     }
 
     @keyframes launchPulse {
-      0%, 100% { opacity: 0.65; transform: translateX(-50%) scale(0.98); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+      0%, 100% { opacity: 0.62; transform: translateX(-50%) scale(0.98); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.06); }
     }
 
-    @media (max-width: 900px) {
+    .exhaust-field {
+      position: absolute;
+      left: 50%;
+      top: calc(31% + 42px + 250px);
+      transform: translateX(-50%);
+      width: min(44vw, 430px);
+      height: 38vh;
+      z-index: 12;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .plume {
+      position: absolute;
+      left: 50%;
+      bottom: 100%;
+      border-radius: 50%;
+      mix-blend-mode: screen;
+      filter: blur(16px);
+      transform-origin: center;
+      animation: plumeRise linear infinite;
+    }
+
+    @keyframes plumeRise {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 0) scale(0.7);
+      }
+      10% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--drift-x)), var(--rise-y)) scale(var(--scale-end));
+      }
+    }
+
+    .core-plume {
+      background:
+        radial-gradient(circle at 50% 35%,
+          rgba(255,255,255,0.98) 0%,
+          rgba(255,232,175,0.96) 18%,
+          rgba(255,186,82,0.82) 40%,
+          rgba(255,120,30,0.36) 62%,
+          rgba(0,0,0,0) 80%);
+    }
+
+    .smoke-plume {
+      background:
+        radial-gradient(circle at 50% 50%,
+          rgba(255, 214, 156, 0.42) 0%,
+          rgba(200, 140, 95, 0.24) 30%,
+          rgba(110, 88, 78, 0.14) 54%,
+          rgba(0,0,0,0) 80%);
+    }
+
+    @media (max-width: 1100px) {
+      .title-wrap {
+        top: 27%;
+      }
+
+      .title {
+        font-size: clamp(28px, 6vw, 60px);
+      }
+
       .rocket-stage {
-        width: min(62vw, 360px);
+        width: min(36vw, 250px);
+        top: calc(27% + 34px);
       }
 
       .x-beam {
-        transform: translateX(112px);
-        height: 220px;
+        transform: translateX(94px);
+        height: 270px;
+      }
+
+      .launch-glow {
+        top: calc(27% + 34px + 270px);
+        width: min(60vw, 460px);
+      }
+
+      .exhaust-field {
+        top: calc(27% + 34px + 220px);
+        width: min(58vw, 400px);
       }
     }
   </style>
@@ -412,7 +378,7 @@
 
   <div class="launch-glow"></div>
 
-  <div class="smoke-field" id="smokeField"></div>
+  <div class="exhaust-field" id="exhaustField"></div>
 
   <div class="rocket-stage">
     <div class="rocket-wrap">
@@ -424,11 +390,10 @@
 
   <script>
     const scene = document.getElementById("scene");
-    const smokeField = document.getElementById("smokeField");
+    const exhaustField = document.getElementById("exhaustField");
 
-    // Звёзды
     function createStars() {
-      const count = 150;
+      const count = 120;
       for (let i = 0; i < count; i++) {
         const s = document.createElement("div");
         s.className = "star";
@@ -437,13 +402,12 @@
         s.style.height = size + "px";
         s.style.left = Math.random() * 100 + "%";
         s.style.top = Math.random() * 100 + "%";
-        s.style.animationDuration = (1.8 + Math.random() * 3.4) + "s";
-        s.style.animationDelay = (Math.random() * 3.5) + "s";
+        s.style.animationDuration = (1.8 + Math.random() * 3.5) + "s";
+        s.style.animationDelay = (Math.random() * 4) + "s";
         scene.appendChild(s);
       }
     }
 
-    // Формулы / символы / код
     function createFormulas() {
       const formulas = [
         "∑ᵢ wᵢxᵢ → min L(θ)",
@@ -472,47 +436,62 @@
         "P ≠ NP ?",
         "attention(Q,K,V)",
         "hₜ = tanh(Wx + Uhₜ₋₁)",
+        "β̂ = (XᵀX)⁻¹Xᵀy",
+        "Δt → 0",
+        "sin²x + cos²x = 1",
+        "∏(1+xₙ)",
         "cosmos :: intellect",
-        "β̂ = (XᵀX)⁻¹Xᵀy"
+        "ρ(x,t)"
       ];
 
-      const count = 34;
+      const count = 46;
       for (let i = 0; i < count; i++) {
         const f = document.createElement("div");
         f.className = "formula";
         f.textContent = formulas[Math.floor(Math.random() * formulas.length)];
         f.style.left = (Math.random() * 92) + "%";
-        f.style.top = (Math.random() * 86) + "%";
-        f.style.fontSize = (12 + Math.random() * 26) + "px";
-        f.style.opacity = (0.08 + Math.random() * 0.15).toFixed(2);
-        f.style.animationDuration = (3 + Math.random() * 6) + "s";
-        f.style.animationDelay = (Math.random() * 5) + "s";
+        f.style.top = (Math.random() * 82) + "%";
+        f.style.fontSize = (11 + Math.random() * 20) + "px";
+        f.style.animationDuration = (1.6 + Math.random() * 3.8) + "s";
+        f.style.animationDelay = (Math.random() * 4) + "s";
+
         if (Math.random() > 0.72) {
-          f.style.color = "rgba(220,235,255,0.16)";
+          f.style.color = "rgba(245,250,255,0.34)";
         }
+
         scene.appendChild(f);
       }
     }
 
-    // Дым
-    function createSmoke() {
-      const count = 24;
-      for (let i = 0; i < count; i++) {
+    function createExhaust() {
+      const total = 34;
+
+      for (let i = 0; i < total; i++) {
         const p = document.createElement("div");
-        p.className = "smoke";
-        const size = 80 + Math.random() * 220;
+        const isCore = i < 14;
+        p.className = "plume " + (isCore ? "core-plume" : "smoke-plume");
+
+        const size = isCore
+          ? (34 + Math.random() * 56)
+          : (76 + Math.random() * 132);
+
         p.style.width = size + "px";
-        p.style.height = size * (0.72 + Math.random() * 0.22) + "px";
-        p.style.left = (Math.random() * 100) + "%";
-        p.style.animationDuration = (2.4 + Math.random() * 2.8) + "s";
-        p.style.animationDelay = (Math.random() * 1.4) + "s";
-        smokeField.appendChild(p);
+        p.style.height = size * (1.0 + Math.random() * 0.55) + "px";
+        p.style.left = (40 + Math.random() * 20) + "%";
+        p.style.bottom = (-6 + Math.random() * 22) + "px";
+        p.style.animationDuration = (1.6 + Math.random() * 2.3) + "s";
+        p.style.animationDelay = (Math.random() * 2.4) + "s";
+        p.style.setProperty("--drift-x", ((Math.random() - 0.5) * 96) + "px");
+        p.style.setProperty("--rise-y", (95 + Math.random() * 160) + "px");
+        p.style.setProperty("--scale-end", (1.35 + Math.random() * 1.1).toFixed(2));
+
+        exhaustField.appendChild(p);
       }
     }
 
     createStars();
     createFormulas();
-    createSmoke();
+    createExhaust();
   </script>
 </body>
 </html>
