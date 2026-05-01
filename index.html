@@ -44,9 +44,7 @@
       border: 2px solid #00ff00;
       border-radius: 14px;
       padding: 38px 28px;
-      box-shadow:
-        0 0 18px #00ff00,
-        inset 0 0 18px rgba(0, 255, 0, 0.25);
+      box-shadow: 0 0 18px #00ff00, inset 0 0 18px rgba(0, 255, 0, 0.25);
     }
 
     h1 {
@@ -96,7 +94,7 @@
       <h1>TEAM FACCINE — АРХИВ</h1>
       <p>Система готова. Доступ разрешен.</p>
 
-      <a href="https://keen-malasada-5871aa.netlify.app" class="access-btn">
+      <a href="/GPT/Battaglia/3-0/3-0.html" class="access-btn">
         [ ДОСТУП К МАТЕРИАЛАМ ]
       </a>
     </section>
@@ -106,11 +104,8 @@
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
-    const katakana =
-      "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
-    const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const nums = "0123456789";
-    const alphabet = katakana + latin + nums;
+    const alphabet =
+      "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     const fontSize = 16;
     let columns = 0;
@@ -119,13 +114,11 @@
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-
       columns = Math.floor(canvas.width / fontSize);
-      rainDrops = [];
-
-      for (let i = 0; i < columns; i++) {
-        rainDrops[i] = Math.random() * canvas.height / fontSize;
-      }
+      rainDrops = Array.from(
+        { length: columns },
+        () => Math.random() * canvas.height / fontSize
+      );
     }
 
     function drawMatrix() {
@@ -136,7 +129,7 @@
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < rainDrops.length; i++) {
-        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        const text = alphabet[Math.floor(Math.random() * alphabet.length)];
         ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
 
         if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
