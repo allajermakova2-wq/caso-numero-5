@@ -3,495 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Интеллект Х</title>
+  <title>Le Indagini delle Faccine — Вход в Архив</title>
+
   <style>
-    :root {
-      --bg: #000000;
-      --cold-text: rgba(228, 236, 248, 0.88);
-      --cold-x: #f5fbff;
-      --formula-soft: rgba(210, 225, 255, 0.22);
-      --formula-bright: rgba(245, 250, 255, 0.78);
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: "Courier New", Courier, monospace;
     }
 
-    * {
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: block;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
       box-sizing: border-box;
     }
 
-    html, body {
-      margin: 0;
+    .content-box {
+      max-width: 620px;
       width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
-
-    body {
-      position: relative;
-      background:
-        radial-gradient(circle at 50% 45%, rgba(24, 40, 72, 0.14) 0%, rgba(0,0,0,0) 28%),
-        radial-gradient(circle at 50% 60%, rgba(70, 110, 180, 0.06) 0%, rgba(0,0,0,0) 18%),
-        #000000;
-    }
-
-    #scene {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .star {
-      position: absolute;
-      border-radius: 50%;
-      background: #ffffff;
-      opacity: 0.16;
-      box-shadow: 0 0 7px rgba(255,255,255,0.24);
-      pointer-events: none;
-      will-change: transform, opacity;
-      animation: twinkle linear infinite;
-    }
-
-    .formula {
-      position: absolute;
-      color: var(--formula-soft);
-      font-family: "Times New Roman", Georgia, serif;
-      white-space: nowrap;
-      user-select: none;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      text-shadow:
-        0 0 4px rgba(255,255,255,0.03),
-        0 0 12px rgba(160, 200, 255, 0.05);
-      will-change: transform, opacity;
-      animation: twinkle linear infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.08;
-        transform: scale(0.96);
-      }
-      50% {
-        opacity: 0.95;
-        transform: scale(1.06);
-      }
-    }
-
-    .title-wrap {
-      position: absolute;
-      left: 50%;
-      top: 31%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
       text-align: center;
-      pointer-events: none;
+      background: rgba(0, 0, 0, 0.88);
+      border: 2px solid #00ff00;
+      border-radius: 14px;
+      padding: 38px 28px;
+      box-shadow: 0 0 18px #00ff00, inset 0 0 18px rgba(0, 255, 0, 0.25);
     }
 
-    .title {
-      font-weight: 300;
-      font-size: clamp(34px, 4.4vw, 82px);
-      letter-spacing: 0.08em;
-      color: var(--cold-text);
-      text-shadow:
-        0 0 10px rgba(190, 215, 255, 0.09),
-        0 0 24px rgba(140, 175, 255, 0.06);
+    h1 {
+      margin: 0 0 22px;
+      color: #00ff00;
+      font-size: clamp(26px, 5vw, 42px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px #00ff00;
     }
 
-    .title .x {
-      position: relative;
-      color: var(--cold-x);
-      text-shadow:
-        0 0 8px rgba(255,255,255,0.96),
-        0 0 18px rgba(180, 220, 255, 0.82),
-        0 0 42px rgba(110, 170, 255, 0.56),
-        0 0 78px rgba(110, 170, 255, 0.24);
-      animation: xPulse 2.3s ease-in-out infinite;
+    p {
+      margin: 0 0 28px;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 1.5;
     }
 
-    @keyframes xPulse {
-      0%, 100% { opacity: 0.9; }
-      50% { opacity: 1; }
+    .access-btn {
+      display: inline-block;
+      padding: 16px 34px;
+      color: #000;
+      background: #00ff00;
+      border: 2px solid #00ff00;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px #00ff00;
+      transition: 0.25s ease;
     }
 
-    .x-beam {
-      position: absolute;
-      left: 50%;
-      top: calc(100% + 6px);
-      transform: translateX(128px);
-      width: 16px;
-      height: 320px;
-      background:
-        linear-gradient(to bottom,
-          rgba(235,245,255,0.94) 0%,
-          rgba(160,210,255,0.54) 12%,
-          rgba(120,180,255,0.18) 40%,
-          rgba(70,120,255,0.06) 72%,
-          rgba(0,0,0,0) 100%);
-      filter: blur(4px);
-      opacity: 0.74;
-      z-index: 18;
-      pointer-events: none;
-      animation: beamPulse 2.1s ease-in-out infinite;
-    }
-
-    .x-beam::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: 54px;
-      height: 100%;
-      transform: translateX(-50%);
-      background:
-        linear-gradient(to bottom,
-          rgba(180,220,255,0.18),
-          rgba(90,140,255,0.06),
-          rgba(0,0,0,0));
-      filter: blur(16px);
-    }
-
-    @keyframes beamPulse {
-      0%, 100% {
-        opacity: 0.52;
-        transform: translateX(128px) scaleY(0.96);
-      }
-      50% {
-        opacity: 0.9;
-        transform: translateX(128px) scaleY(1.03);
-      }
-    }
-
-    .rocket-stage {
-      position: absolute;
-      left: 50%;
-      top: calc(31% + 42px);
-      width: min(27vw, 280px);
-      transform: translateX(-50%);
-      z-index: 30;
-      pointer-events: none;
-    }
-
-    .rocket-wrap {
-      position: relative;
-      width: 100%;
-    }
-
-    .rocket-img {
-      display: block;
-      width: 100%;
-      height: auto;
-      user-select: none;
-      -webkit-user-drag: none;
-      position: relative;
-      z-index: 5;
-      filter:
-        drop-shadow(0 0 12px rgba(255, 214, 160, 0.08))
-        drop-shadow(0 0 28px rgba(255,255,255,0.04));
-    }
-
-    .rocket-x {
-      position: absolute;
-      left: 50.2%;
-      top: 3.2%;
-      transform: translate(-50%, -50%);
-      color: #f8fcff;
-      font-size: clamp(10px, 0.95vw, 15px);
-      font-weight: 300;
-      text-shadow:
-        0 0 6px rgba(255,255,255,0.96),
-        0 0 14px rgba(180,220,255,0.9),
-        0 0 28px rgba(110,170,255,0.6);
-      z-index: 8;
-      animation: xPulse 2s ease-in-out infinite;
-    }
-
-    .engine-flame {
-      position: absolute;
-      left: 50%;
-      bottom: 10%;
-      transform: translateX(-50%);
-      width: 24%;
-      height: 18%;
-      z-index: 2;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.98) 0 18%, rgba(255,255,255,0) 34%),
-        linear-gradient(to bottom,
-          rgba(255,255,255,0.96) 0%,
-          rgba(255,234,176,0.96) 16%,
-          rgba(255,190,86,0.94) 40%,
-          rgba(255,116,20,0.82) 66%,
-          rgba(255,60,0,0.28) 88%,
-          rgba(0,0,0,0) 100%);
-      filter: blur(6px);
-      clip-path: polygon(34% 0%, 66% 0%, 86% 32%, 72% 100%, 28% 100%, 14% 32%);
-      animation: flameFlicker 0.11s ease-in-out infinite;
-    }
-
-    .engine-flame::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to bottom,
-          rgba(255,255,255,0.7),
-          rgba(160,220,255,0.18),
-          rgba(0,0,0,0));
-      filter: blur(16px);
-      transform: scale(1.7, 1.2);
-      opacity: 0.45;
-    }
-
-    @keyframes flameFlicker {
-      0% {
-        transform: translateX(-50%) scaleY(0.92) scaleX(0.97);
-        opacity: 0.84;
-      }
-      50% {
-        transform: translateX(-50%) scaleY(1.08) scaleX(1.04);
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(-50%) scaleY(0.97) scaleX(0.98);
-        opacity: 0.9;
-      }
-    }
-
-    .launch-glow {
-      position: absolute;
-      left: 50%;
-      top: calc(31% + 42px + 310px);
-      transform: translateX(-50%);
-      width: min(48vw, 520px);
-      height: 22vh;
-      background:
-        radial-gradient(circle at 50% 20%,
-          rgba(255, 230, 180, 0.24) 0%,
-          rgba(255, 150, 42, 0.14) 28%,
-          rgba(0,0,0,0) 70%);
-      filter: blur(28px);
-      z-index: 10;
-      pointer-events: none;
-      animation: launchPulse 0.16s ease-in-out infinite;
-    }
-
-    @keyframes launchPulse {
-      0%, 100% { opacity: 0.62; transform: translateX(-50%) scale(0.98); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.06); }
-    }
-
-    .exhaust-field {
-      position: absolute;
-      left: 50%;
-      top: calc(31% + 42px + 250px);
-      transform: translateX(-50%);
-      width: min(44vw, 430px);
-      height: 38vh;
-      z-index: 12;
-      pointer-events: none;
-      overflow: visible;
-    }
-
-    .plume {
-      position: absolute;
-      left: 50%;
-      bottom: 100%;
-      border-radius: 50%;
-      mix-blend-mode: screen;
-      filter: blur(16px);
-      transform-origin: center;
-      animation: plumeRise linear infinite;
-    }
-
-    @keyframes plumeRise {
-      0% {
-        opacity: 0;
-        transform: translate(-50%, 0) scale(0.7);
-      }
-      10% {
-        opacity: 0.95;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(calc(-50% + var(--drift-x)), var(--rise-y)) scale(var(--scale-end));
-      }
-    }
-
-    .core-plume {
-      background:
-        radial-gradient(circle at 50% 35%,
-          rgba(255,255,255,0.98) 0%,
-          rgba(255,232,175,0.96) 18%,
-          rgba(255,186,82,0.82) 40%,
-          rgba(255,120,30,0.36) 62%,
-          rgba(0,0,0,0) 80%);
-    }
-
-    .smoke-plume {
-      background:
-        radial-gradient(circle at 50% 50%,
-          rgba(255, 214, 156, 0.42) 0%,
-          rgba(200, 140, 95, 0.24) 30%,
-          rgba(110, 88, 78, 0.14) 54%,
-          rgba(0,0,0,0) 80%);
-    }
-
-    @media (max-width: 1100px) {
-      .title-wrap {
-        top: 27%;
-      }
-
-      .title {
-        font-size: clamp(28px, 6vw, 60px);
-      }
-
-      .rocket-stage {
-        width: min(36vw, 250px);
-        top: calc(27% + 34px);
-      }
-
-      .x-beam {
-        transform: translateX(94px);
-        height: 270px;
-      }
-
-      .launch-glow {
-        top: calc(27% + 34px + 270px);
-        width: min(60vw, 460px);
-      }
-
-      .exhaust-field {
-        top: calc(27% + 34px + 220px);
-        width: min(58vw, 400px);
-      }
+    .access-btn:hover {
+      color: #00ff00;
+      background: #000;
+      box-shadow: 0 0 28px #00ff00;
     }
   </style>
 </head>
+
 <body>
-  <div id="scene"></div>
+  <canvas id="matrix"></canvas>
 
-  <div class="title-wrap">
-    <div class="title">Интеллект <span class="x">Х</span></div>
-    <div class="x-beam"></div>
-  </div>
+  <main class="overlay">
+    <section class="content-box">
+      <h1>TEAM FACCINE — АРХИВ</h1>
+      <p>Система готова. Доступ разрешен.</p>
 
-  <div class="launch-glow"></div>
-
-  <div class="exhaust-field" id="exhaustField"></div>
-
-  <div class="rocket-stage">
-    <div class="rocket-wrap">
-      <div class="engine-flame"></div>
-      <img src="Buran.png" alt="Буран" class="rocket-img">
-      <div class="rocket-x">Х</div>
-    </div>
-  </div>
+      <a href="Database-investigativo-del-Team-Faccine.html" class="access-btn">
+        [ ДОСТУП К МАТЕРИАЛАМ ]
+      </a>
+    </section>
+  </main>
 
   <script>
-    const scene = document.getElementById("scene");
-    const exhaustField = document.getElementById("exhaustField");
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
 
-    function createStars() {
-      const count = 120;
-      for (let i = 0; i < count; i++) {
-        const s = document.createElement("div");
-        s.className = "star";
-        const size = Math.random() * 2 + 0.7;
-        s.style.width = size + "px";
-        s.style.height = size + "px";
-        s.style.left = Math.random() * 100 + "%";
-        s.style.top = Math.random() * 100 + "%";
-        s.style.animationDuration = (1.8 + Math.random() * 3.5) + "s";
-        s.style.animationDelay = (Math.random() * 4) + "s";
-        scene.appendChild(s);
-      }
+    const alphabet =
+      "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    const fontSize = 16;
+    let columns = 0;
+    let rainDrops = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      rainDrops = Array.from(
+        { length: columns },
+        () => Math.random() * canvas.height / fontSize
+      );
     }
 
-    function createFormulas() {
-      const formulas = [
-        "∑ᵢ wᵢxᵢ → min L(θ)",
-        "∂ℒ/∂θ = η · ∇f(x)",
-        "P(x|y) ∝ P(y|x)P(x)",
-        "while(true){ learn(); }",
-        "f(x)=σ(Wx+b)",
-        "∫ e^{-x²} dx",
-        "E = mc²",
-        "λ = h / p",
-        "y = αx + β",
-        "argmax P(token|context)",
-        "∇·F = ρ/ε₀",
-        "A = {c(x) | f(y)}",
-        "loss(x,y;w)",
-        "θₜ₊₁ = θₜ - η∇J(θ)",
-        "if (truth) return light;",
-        "X ∈ ℋ",
-        "Σ pᵢ log pᵢ",
-        "∀x ∃y : x<y",
-        "Neural Graph G(V,E)",
-        "class Mind extends System {}",
-        "φ = (1 + √5)/2",
-        "Ψ(x,t)",
-        "lim x→∞",
-        "P ≠ NP ?",
-        "attention(Q,K,V)",
-        "hₜ = tanh(Wx + Uhₜ₋₁)",
-        "β̂ = (XᵀX)⁻¹Xᵀy",
-        "Δt → 0",
-        "sin²x + cos²x = 1",
-        "∏(1+xₙ)",
-        "cosmos :: intellect",
-        "ρ(x,t)"
-      ];
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const count = 46;
-      for (let i = 0; i < count; i++) {
-        const f = document.createElement("div");
-        f.className = "formula";
-        f.textContent = formulas[Math.floor(Math.random() * formulas.length)];
-        f.style.left = (Math.random() * 92) + "%";
-        f.style.top = (Math.random() * 82) + "%";
-        f.style.fontSize = (11 + Math.random() * 20) + "px";
-        f.style.animationDuration = (1.6 + Math.random() * 3.8) + "s";
-        f.style.animationDelay = (Math.random() * 4) + "s";
+      ctx.fillStyle = "#00ff00";
+      ctx.font = fontSize + "px monospace";
 
-        if (Math.random() > 0.72) {
-          f.style.color = "rgba(245,250,255,0.34)";
+      for (let i = 0; i < rainDrops.length; i++) {
+        const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          rainDrops[i] = 0;
         }
 
-        scene.appendChild(f);
+        rainDrops[i]++;
       }
     }
 
-    function createExhaust() {
-      const total = 34;
-
-      for (let i = 0; i < total; i++) {
-        const p = document.createElement("div");
-        const isCore = i < 14;
-        p.className = "plume " + (isCore ? "core-plume" : "smoke-plume");
-
-        const size = isCore
-          ? (34 + Math.random() * 56)
-          : (76 + Math.random() * 132);
-
-        p.style.width = size + "px";
-        p.style.height = size * (1.0 + Math.random() * 0.55) + "px";
-        p.style.left = (40 + Math.random() * 20) + "%";
-        p.style.bottom = (-6 + Math.random() * 22) + "px";
-        p.style.animationDuration = (1.6 + Math.random() * 2.3) + "s";
-        p.style.animationDelay = (Math.random() * 2.4) + "s";
-        p.style.setProperty("--drift-x", ((Math.random() - 0.5) * 96) + "px");
-        p.style.setProperty("--rise-y", (95 + Math.random() * 160) + "px");
-        p.style.setProperty("--scale-end", (1.35 + Math.random() * 1.1).toFixed(2));
-
-        exhaustField.appendChild(p);
-      }
-    }
-
-    createStars();
-    createFormulas();
-    createExhaust();
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    setInterval(drawMatrix, 30);
   </script>
 </body>
 </html>
