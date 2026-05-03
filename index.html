@@ -5,67 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Indagini delle Faccine — Вход в Архив</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        canvas {
-            display: block;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            pointer-events: none;
-        }
-        .content-box {
-            text-align: center;
-            pointer-events: auto;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 40px;
-            border: 2px solid #0f0;
-            box-shadow: 0 0 20px #0f0;
-            border-radius: 10px;
-        }
-        h1 {
-            color: #0f0;
-            font-size: 2em;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0f0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        .access-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            color: #000;
-            background-color: #0f0;
-            text-decoration: none;
-            font-weight: bold;
-            border: 2px solid #0f0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-        .access-btn:hover {
-            background-color: #000;
-            color: #0f0;
-            box-shadow: 0 0 15px #0f0;
-        }
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: 'Courier New', monospace; }
+        canvas { display: block; position: fixed; top: 0; left: 0; z-index: 1; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; display: flex; flex-direction: column; justify-content: center; align-items: center; pointer-events: none; }
+        .content-box { text-align: center; pointer-events: auto; background: rgba(0, 0, 0, 0.85); padding: 40px; border: 2px solid #0f0; box-shadow: 0 0 20px #0f0; border-radius: 10px; }
+        h1 { color: #0f0; font-size: 2em; margin-bottom: 30px; text-shadow: 0 0 10px #0f0; text-transform: uppercase; letter-spacing: 3px; }
+        .access-btn { display: inline-block; padding: 15px 30px; font-size: 1.2em; color: #000; background-color: #0f0; text-decoration: none; font-weight: bold; border: 2px solid #0f0; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; }
+        .access-btn:hover { background-color: #000; color: #0f0; box-shadow: 0 0 15px #0f0; }
     </style>
 </head>
 <body>
@@ -75,7 +21,7 @@
             <h1>TEAM FACCINE — АРХИВ</h1>
             <p style="color: #fff; margin-bottom: 20px;">Система готова. Доступ разрешен.</p>
             
-            <!-- СЮДА ВСТАВЛЕНА ССЫЛКА НА БАЗУ ДАННЫХ -->
+            <!-- ССЫЛКА НА БАЗУ ДАННЫХ -->
             <a href="https://sites.google.com/view/le-indagini-delle-faccine/Database-investigativo-del-Team-Faccine" class="access-btn" target="_blank">
                 [ ДОСТУП К МАТЕРИАЛАМ ]
             </a>
@@ -85,51 +31,34 @@
     <script>
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        // Японские символы + Латиница + Цифры + СТРАНЫ (Бразилия, Финляндия и др.)
+        
         const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
         const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const nums = '0123456789';
         const countries = 'ВЕНГРИЯЧЕХИЯСИНГАПУРХОРВАТИЯТАЛИБАНЮЖНАЯАФРИКАБРАЗИЛИЯФИНЛЯНДИЯHUNGARYCZECHSINGAPORECROATIATALIBANSOUTHAFRICABRAZILFINLAND';
-        
         const alphabet = katakana + latin + nums + countries;
-
+        
         const fontSize = 16;
         const columns = canvas.width / fontSize;
-
         const rainDrops = [];
-
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
-        }
-
+        for (let x = 0; x < columns; x++) { rainDrops[x] = 1; }
+        
         const draw = () => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
             ctx.fillStyle = '#0F0';
             ctx.font = fontSize + 'px monospace';
-
             for (let i = 0; i < rainDrops.length; i++) {
                 const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
                 ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) { rainDrops[i] = 0; }
                 rainDrops[i]++;
             }
         };
-
         setInterval(draw, 30);
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 </html>
