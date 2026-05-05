@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logic Theorist — 1955–1956</title>
+
+<style>
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #0b0a07;
+  color: #e8dcc4;
+  font-family: "Courier New", monospace;
+}
+
+body {
+  background:
+    radial-gradient(circle at center, rgba(255,220,140,.12), transparent 45%),
+    linear-gradient(#14110b, #050504);
+  overflow-x: hidden;
+}
+
+.scene {
+  min-height: 100vh;
+  padding: 48px 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.portraits {
+  width: min(1000px, 94vw);
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.portraits img {
+  max-width: 100%;
+  filter: grayscale(1) contrast(1.15) sepia(.25);
+  border-bottom: 1px solid rgba(232,220,196,.35);
+}
+
+.title {
+  letter-spacing: .22em;
+  font-size: clamp(28px, 5vw, 54px);
+  margin: 16px 0 6px;
+  text-align: center;
+}
+
+.subtitle {
+  color: #b9aa8a;
+  letter-spacing: .14em;
+  font-size: 14px;
+  text-align: center;
+}
+
+.workbench {
+  margin-top: 34px;
+  width: min(1050px, 94vw);
+  background: rgba(25,20,12,.86);
+  border: 1px solid rgba(232,220,196,.35);
+  box-shadow:
+    0 0 40px rgba(255,200,100,.12),
+    inset 0 0 50px rgba(0,0,0,.65);
+  padding: 26px;
+  position: relative;
+}
+
+.paper {
+  background: #d8c9aa;
+  color: #16110a;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  transform: rotate(-1deg);
+}
+
+.paper h2 {
+  margin-top: 0;
+  letter-spacing: .12em;
+}
+
+.formula {
+  font-size: clamp(22px, 4vw, 40px);
+  text-align: center;
+  margin: 30px 0;
+}
+
+.proof {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.cards {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+
+.card {
+  flex: 1;
+  min-width: 220px;
+  background: #c8b78f;
+  color: #19130b;
+  border: 1px solid #806f4f;
+  padding: 14px;
+  font-size: 13px;
+  letter-spacing: .08em;
+  box-shadow: inset 0 -8px 0 rgba(0,0,0,.08);
+}
+
+.card::before {
+  content: "••••••••••••••••••••••";
+  display: block;
+  letter-spacing: .22em;
+  color: #4b3d25;
+  margin-bottom: 10px;
+}
+
+.console {
+  margin-top: 28px;
+  background: #050704;
+  border: 1px solid #496b35;
+  color: #9cff65;
+  padding: 18px;
+  font-size: 15px;
+  box-shadow: 0 0 25px rgba(120,255,80,.18);
+}
+
+.blink {
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.footer {
+  margin-top: 28px;
+  color: #8f836c;
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+</style>
+</head>
+
+<body>
+<section class="scene">
+
+  <div class="portraits">
+    <img src="logic-team.png" alt="Allen Newell, Herbert A. Simon, Cliff Shaw">
+    <div class="title">LOGIC THEORIST</div>
+    <div class="subtitle">NEWELL · SIMON · SHAW / 1955–1956</div>
+  </div>
+
+  <div class="workbench">
+    <div class="paper">
+      <h2>THEOREM PROOF SESSION</h2>
+
+      <div class="formula">
+        ¬p → (q ∨ ¬p)
+      </div>
+
+      <div class="proof">
+INPUT STATEMENT:
+  IF NOT P, THEN Q OR NOT P
+
+TRANSFORMATION:
+  A → B  ≡  ¬A ∨ B
+
+PROOF:
+  ¬(¬p) ∨ (q ∨ ¬p)
+  p ∨ q ∨ ¬p
+  (p ∨ ¬p) ∨ q
+  TRUE ∨ q
+
+RESULT:
+  ⊢ TRUE
+      </div>
+
+      <div class="cards">
+        <div class="card">PUNCH CARD / AXIOM SET</div>
+        <div class="card">SEARCH TREE / BRANCH ACTIVE</div>
+        <div class="card">THEOREM VERIFIED</div>
+      </div>
+    </div>
+
+    <div class="console">
+      IPL MEMORY ACTIVE<br>
+      SYMBOLIC REASONING ENGINE READY<br>
+      PROOF SEARCH: SUCCESSFUL<br>
+      OUTPUT: THEOREM PROVED <span class="blink">█</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    FIRST PROGRAM THAT PROVED THEOREMS
+  </div>
+
+</section>
+</body>
+</html>
